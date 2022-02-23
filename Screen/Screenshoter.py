@@ -1,6 +1,12 @@
 import win32con
 import win32gui
 import win32ui
+from PIL import Image
+
+
+def load_image(path):
+    Image.init()
+    return Image.open(path)
 
 
 def create_background_screenshot(hwnd, width, height, file_name):
@@ -29,3 +35,15 @@ def create_device_contexts(hwnd):
     device_context_object = win32ui.CreateDCFromHandle(window_device_context)
     compatible_device_context = device_context_object.CreateCompatibleDC()
     return compatible_device_context, device_context_object, window_device_context
+
+
+def take_screenshot_and_crop(hwnd):
+    file_name = 'screenshot'
+    create_background_screenshot(hwnd, 680, 510, file_name)
+    crop_image(file_name)
+
+
+def crop_image(image_name):
+    im = Image.open(f'${image_name}.bmp')
+    cropped_image = im.crop((370, 430, 680, 510))
+    cropped_image.save(f'${image_name}.bmp')
