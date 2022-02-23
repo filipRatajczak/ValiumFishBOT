@@ -1,7 +1,8 @@
 import numpy
 import tensorflow
-from PIL import Image
 from keras import models, layers
+
+from Screen.Screenshoter import load_image
 
 
 def create_tuple_of_file_names(num_from, num_to):
@@ -9,11 +10,6 @@ def create_tuple_of_file_names(num_from, num_to):
     for num_of_file in range(num_from, num_to):
         tuple_of_file_names.append(f'C:\\Users\\Filip\\PycharmProjects\\ValiumFishbot\\$screenshot{num_of_file}.bmp')
     return tuple_of_file_names
-
-
-def load_image(path):
-    Image.init()
-    return Image.open(path)
 
 
 def parse_rgb_vector_to_tensor(vector_of_image):
@@ -83,11 +79,7 @@ def predict_single_input(single_input, model):
     return classes.data[0]
 
 
-if __name__ == '__main__':
-    model = create_cnn_model()
-    data = create_nparray_from_picture("C:\\Users\\Filip\\PycharmProjects\\ValiumFishbot\\$screenshot95.bmp")
-    data1 = create_nparray_from_picture("C:\\Users\\Filip\\PycharmProjects\\ValiumFishbot\\$screenshot96.bmp")
-    data2 = create_nparray_from_picture("C:\\Users\\Filip\\PycharmProjects\\ValiumFishbot\\$screenshot97.bmp")
-    predict_single_input(data, model)
-    predict_single_input(data1, model)
-    predict_single_input(data2, model)
+def get_number_from_model(data_path, model):
+    data = create_nparray_from_picture(data_path)
+    num_of_spaces_to_click = predict_single_input(data, model)
+    return num_of_spaces_to_click
