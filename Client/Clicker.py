@@ -61,7 +61,7 @@ def release_key(hexKeyCode):
     ctypes.windll.user32.SendInput(1, ctypes.pointer(x), ctypes.sizeof(x))
 
 
-def random_f1_to_f4():
+def press_random_f1_to_f4():
     key = randint(F1, F4)
     press_key(key)
     time.sleep(random() / 2)
