@@ -78,5 +78,3 @@ def press_space_x_times(number_of_times):
     for i in range(number_of_times):
         time.sleep(random() / 10)
         press_space()
-
-

@@ -28,18 +28,19 @@ def fishing(handle, flag_value):
     logging.basicConfig(filename='output.log', level=logging.INFO, format='%(asctime)s %(message)s')
     logging.info(f'VALIUM FISH-BOT STARTED')
     model = create_cnn_model()
-    hwnd = win32gui.FindWindow(None, "Valium.pl")
-    initial_fishing()
-
-    counter = 0
-
-    while True:
-        isFish = get_fishing_flag(handle)
-        time.sleep(random())
-        if isFish == flag_value:
-            logging.info(f'FLAG IS SET TO {flag_value}')
-            fishing_content(hwnd, model)
-            counter = counter + 1
+    model.save('digit_recognizer.h5')
+    # hwnd = win32gui.FindWindow(None, "Valium.pl")
+    # initial_fishing()
+    #
+    # counter = 0
+    #
+    # while True:
+    #     isFish = get_fishing_flag(handle)
+    #     time.sleep(random())
+    #     if isFish == flag_value:
+    #         logging.info(f'FLAG IS SET TO {flag_value}')
+    #         fishing_content(hwnd, model)
+    #         counter = counter + 1
 
 
 def fishing_content(hwnd, model):
@@ -68,9 +69,10 @@ def check_idle(flag_value, handle, isFish, start_time, hwnd):
         isFish = get_fishing_flag(handle)
         time.sleep(random())
         stop_time = time.time()
-        if stop_time - start_time > MINUTE_IN_SECONDS:
+        total_time = stop_time - start_time
+        if total_time > MINUTE_IN_SECONDS:
             logging.warning(
-                f'SEEMS FISH-BOT GOT STACKED WHEN FLAG = {isFish} FOR {(stop_time - start_time)} SECONDS, TRYING TO REPAIR IT...')
+                f'SEEMS FISH-BOT GOT STACKED WHEN FLAG = {isFish} FOR {total_time} SECONDS, TRYING TO REPAIR IT...')
             set_focus_on_window(hwnd)
             initial_fishing()
             time.sleep(MINUTE_IN_SECONDS + random())

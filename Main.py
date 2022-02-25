@@ -9,10 +9,10 @@ STACKED_FLAG = 1
 
 if __name__ == '__main__':
     handle = get_valium_process_object_details()
-    stacked = Thread(target=check_flag_stacked, args=(handle, IDLE_FLAG,))
-    idle = Thread(target=check_flag_stacked, args=(handle, STACKED_FLAG,))
+    # stacked = Thread(target=check_flag_stacked, args=(handle, IDLE_FLAG,))
+    # idle = Thread(target=check_flag_stacked, args=(handle, STACKED_FLAG,))
     bot = Thread(target=fishing, args=(handle, STACKED_FLAG,))
     bot.start()
-    time.sleep(2)
-    stacked.start()
-    idle.start()
+    # time.sleep(2)
+    # stacked.start()
+    # idle.start()
