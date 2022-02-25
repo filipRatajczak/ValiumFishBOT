@@ -8,7 +8,7 @@ from Screen.Screenshoter import load_image
 def create_tuple_of_file_names(num_from, num_to):
     tuple_of_file_names = list()
     for num_of_file in range(num_from, num_to):
-        tuple_of_file_names.append(f'C:\\Users\\Filip\\PycharmProjects\\ValiumFishbot\\$screenshot{num_of_file}.bmp')
+        tuple_of_file_names.append(f'screenshot{num_of_file}.bmp')
     return tuple_of_file_names
 
 
@@ -25,9 +25,9 @@ def create_nparray_of_all_tensors(tuple_of_filenames):
         nparray_of_all_tensors.append(tensor)
     return numpy.asarray(nparray_of_all_tensors)
 
-
-def create_nparray_from_picture(filename):
-    pixel_vector = get_vector_of_image_rgb_pixels(filename)
+ 
+def create_nparray_from_picture(image_path):
+    pixel_vector = get_vector_of_image_rgb_pixels(image_path)
     tensor = parse_rgb_vector_to_tensor(pixel_vector)
     return numpy.asarray(list(tensor))
 
@@ -79,7 +79,7 @@ def predict_single_input(single_input, model):
     return classes.data[0]
 
 
-def get_number_from_model(data_path, model):
-    data = create_nparray_from_picture(data_path)
+def get_number_from_model(screenshot_path, model):
+    data = create_nparray_from_picture(screenshot_path)
     num_of_spaces_to_click = predict_single_input(data, model)
     return num_of_spaces_to_click
