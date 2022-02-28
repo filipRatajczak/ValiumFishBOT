@@ -12,6 +12,7 @@ from Screen.Screenshoter import Screenshooter
 
 
 class Fishing:
+    logging.basicConfig(filename='output.log', level=logging.INFO, format='%(asctime)s %(message)s')
     hwnd = win32gui.FindWindow(None, "Valium.pl")
     model = tensorflow.keras.models.load_model('digit_recognizer.h5')
     SPACE = 0x39
@@ -37,48 +38,40 @@ class Fishing:
         press_space()
 
     def fishing(self):
-        logging.basicConfig(filename='output.log', level=logging.INFO, format='%(asctime)s %(message)s')
         logging.info(f'VALIUM FISH-BOT STARTED')
         self.initial_fishing()
-
-        counter = 0
-
         while True:
-            isFish = self.__memory_reader__.get_fishing_flag(self.__handle__)
-            time.sleep(random())
-            if isFish == self.FISH_FLAG:
-                logging.info(f'FLAG IS SET TO {self.FISH_FLAG}')
+            get_fish_flag = self.__memory_reader__.get_fishing_flag(self.__handle__)
+            time.sleep(1)
+            if get_fish_flag == self.FISH_FLAG:
                 self.fishing_content(self)
-                counter = counter + 1
 
     @staticmethod
     def fishing_content(self):
         self.__screenshooter__.take_screenshot_and_crop(self.DEFAULT_SCREENSHOT_NAME)
         predicted_number = self.__digit_recognizer__.get_number_from_model(self.DEFAULT_SCREENSHOT_NAME_WITH_EXTENSION,
                                                                            self.model)
-        self.__screenshooter__.set_focus_on_window()
         press_space_x_times(predicted_number)
         time.sleep(self.CONST_TIME_TO_RETRIEVE_FISH + random())
         press_random_f1_to_f4()
         press_space()
 
-    def check_flag_stacked(self):
+    def check_flag_stacked(self, flag):
         while True:
-            isFish = self.__memory_reader__.get_fishing_flag(self.__handle__)
-            if isFish == self.FISH_FLAG:
-                time.sleep(random())
+            get_fish_flag = self.__memory_reader__.get_fishing_flag(self.__handle__)
+            time.sleep(5)
+            if get_fish_flag == flag:
                 start_time = time.time()
-                self.check_idle(isFish, start_time)
+                self.check_idle(get_fish_flag, flag, start_time)
 
-    def check_idle(self, isFish, start_time):
-        while isFish == self.FISH_FLAG:
-            isFish = self.__memory_reader__.get_fishing_flag(self.__handle__)
+    def check_idle(self, get_fish_flag, flag, start_time):
+        while get_fish_flag == flag:
             time.sleep(3)
+            get_fish_flag = self.__memory_reader__.get_fishing_flag(self.__handle__)
             stop_time = time.time()
             total_time = stop_time - start_time
             if total_time > self.MINUTE_IN_SECONDS:
                 logging.warning(
-                    f'FISH-BOT GOT STACKED WHEN FLAG = {isFish} FOR {total_time} SECONDS, TRYING TO REPAIR IT...')
-                self.__screenshooter__.set_focus_on_window()
+                    f'[FISH-BOT GOT STACKED] FLAG = {get_fish_flag}')
                 self.initial_fishing()
-                time.sleep(self.MINUTE_IN_SECONDS + random())
+                break

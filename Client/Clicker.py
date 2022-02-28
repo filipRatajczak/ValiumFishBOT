@@ -1,6 +1,6 @@
 import ctypes
 import time
-from random import random, randint
+from random import random, randint, randrange
 
 SendInput = ctypes.windll.user32.SendInput
 
@@ -8,7 +8,13 @@ PUL = ctypes.POINTER(ctypes.c_ulong)
 
 SPACE = 0x39
 F1 = 0x3B
+F2 = 0x3C
+F3 = 0x3D
 F4 = 0X3E
+ONE = 0x02
+TWO = 0x03
+THREE = 0x04
+FOUR = 0x05
 
 
 class KeyBdInput(ctypes.Structure):
@@ -62,10 +68,12 @@ def release_key(hexKeyCode):
 
 
 def press_random_f1_to_f4():
-    key = randint(F1, F4)
-    press_key(key)
+    keys = [F1, F2, F3, F4, ONE, TWO, THREE, FOUR]
+    random_index = randint(0, len(keys) - 1)
+    print(random_index)
+    press_key(keys[random_index])
     time.sleep(random() / 2)
-    release_key(key)
+    release_key(keys[random_index])
 
 
 def press_space():
