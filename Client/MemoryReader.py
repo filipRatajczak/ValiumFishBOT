@@ -2,7 +2,7 @@ import pymem
 import pymem.process
 import pymem.memory
 
-OFFSET = 0x2AE5D7C
+OFFSET = 0x2AE8DCC
 
 
 class MemoryReader:
